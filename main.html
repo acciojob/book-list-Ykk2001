@@ -108,46 +108,56 @@
     </table>
 
     <script>
-      let inputTitle = document.getElementById("title");
-      let inputAuthor = document.getElementById("author");
-      let inputISBN = document.getElementById("isbn");
+  let inputTitle = document.getElementById("title");
+  let inputAuthor = document.getElementById("author");
+  let inputISBN = document.getElementById("isbn");
 
-      let addBtn = document.getElementById("submit");
-      let bookList = document.getElementById("book-list");
+  let addBtn = document.getElementById("submit");
+  let bookList = document.getElementById("book-list");
 
-      addBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        let tr = document.createElement("tr");
+  addBtn.addEventListener("click", (e) => {
+    e.preventDefault();
 
-        //below 3 table data has been created
-        let td = document.createElement("td");
-        td.innerText = `${inputTitle.value}`;
+    // Create a new table row
+    let tr = document.createElement("tr");
 
-        let td1 = document.createElement("td");
-        td1.innerText = `${inputAuthor.value}`;
+    // Create table data for title, author, isbn
+    let tdTitle = document.createElement("td");
+    tdTitle.innerText = inputTitle.value;
 
-        let td2 = document.createElement("td");
-        td2.innerText = `${inputISBN.value}`;
+    let tdAuthor = document.createElement("td");
+    tdAuthor.innerText = inputAuthor.value;
 
-        //delete dta created
-        let td3 = document.createElement("td");
-        td3.classList.add("delete");
-        td3.innerText = "Clear";
+    let tdISBN = document.createElement("td");
+    tdISBN.innerText = inputISBN.value;
 
-        //added multiple td inside the row
-        tr.append(td, td1, td2, td3);
-        //after that this row will be appended inside the book list
-        bookList.appendChild(tr);
-      });
-      //using event delegation
-      bookList.addEventListener("click", (e) => {
-        console.log(e.target);
-        if (e.target.classList.contains("delete")) {
-          const row = e.target.parentElement;
-          console.log(row);
-          row.remove();
-        }
-      });
-    </script>
+    // Create delete button inside a td
+    let tdDelete = document.createElement("td");
+    let deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete");
+    deleteBtn.innerText = "Clear";
+    tdDelete.appendChild(deleteBtn);
+
+    // Append all td to the row
+    tr.append(tdTitle, tdAuthor, tdISBN, tdDelete);
+
+    // Append the row to the table body
+    bookList.appendChild(tr);
+
+    // Clear input fields after adding
+    inputTitle.value = "";
+    inputAuthor.value = "";
+    inputISBN.value = "";
+  });
+
+  // Event delegation for delete buttons
+  bookList.addEventListener("click", (e) => {
+    if (e.target.classList.contains("delete")) {
+      const row = e.target.closest("tr");
+      row.remove();
+    }
+  });
+</script>
+
   </body>
 </html>
